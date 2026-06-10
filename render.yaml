@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: rag-qa-service
+    env: python
+    plan: starter
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DASHSCOPE_API_KEY
+        description: "DashScope API Key for Qwen model"
+        sync: false
+      - key: PYTHONPATH
+        value: "$PYTHONPATH:./tools"
+    healthCheckPath: /api/health
+    autoDeploy: true
